@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+   <script>
+        // Instead of using data-dojo-config, we're creating a dojoConfig
+        // object *before* we load dojo.js; they're functionally identical,
+        // it's just easier to read this approach with a larger configuration.
+				var dojoConfig = {
+					async : true,
+					baseUrl : '.',
+					packages : [ 'dojo', 'dijit', 'dojox', 'demo' ,'myDemo']
+				};
+			</script>
+    <!-- load Dojo -->
+    <script src="dojo/dojo.js"></script>
+<ul id="list">
+    <li class="odd">
+        <div class="bold">
+            <a class="odd">Odd</a>
+        </div>
+    </li>
+    <li class="even">
+        <div class="italic">
+            <a class="even">Even</a>
+        </div>
+    </li>
+    <li class="odd">
+        <a class="odd">Odd</a>
+    </li>
+    <li class="even">
+        <div class="bold">
+            <a class="even">Even</a>
+        </div>
+    </li>
+    <li class="odd">
+        <div class="italic">
+            <a class="odd">Odd</a>
+        </div>
+    </li>
+    <li class="even">
+        <a class="even">Even</a>
+    </li>
+</ul>
+ 
+<ul id="list2">
+    <li class="odd">Odd</li>
+</ul>
+
+    <script>
+ 
+					// require the query and domReady modules
+					require([ "dojo/query", "dojo/domReady!" ],
+							function(query) {
+								// retrieve an array of nodes with the ID "list"
+								//query always returns an array
+								var list = query("#list")[0];
+
+								// retrieve an array of nodes with the class name "odd"
+								var odds = query(".odd");
+
+								// retrieve an array of nodes with the class name "odd"
+								// from the first list using a selector
+								var odds1 = query("#list .odd");//在ID为list里的组件里获取class为odd的组件
+
+								// retrieve an array of nodes with the class name "odd"
+								// from the first list using a DOM node
+								var odds2 = query(".odd", document.getElementById("list"));
+								
+								var oddA = query("a.odd");
+								
+								// Retrieve an array of any a element that has an
+								// li as its ancestor.
+								var allA = query("li a");//祖先里有li的a
+								// Retrieve an array of any a element that has an
+								// li as its direct parent.
+								var someA = query("li > a");//上级是li的a
+
+							})
+				</script>
+				
+				
+			As mentioned before, query returns an array of nodes that match the selector; this array is actually a dojo/NodeList and has methods for interacting with the nodes contained in it.
+	<div id="list">
+		<div class="odd">One</div>
+		<div class="even">Two</div>
+		<div class="odd">Three</div>
+		<div class="even">Four</div>
+		<div class="odd">Five</div>
+		<div class="even">Six</div>
+	</div>
+	<script type="text/javascript">
+	// Wait for the DOM to be ready before working with it
+	require(["dojo/query", "dojo/dom-class", "dojo/domReady!"],
+	    function(query, domClass) {
+	 
+	        query(".odd").forEach(function(node, index, nodelist){
+	            // for each node in the array returned by query,
+	            // execute the following code
+	            domClass.add(node, "red");
+	        });
+	 
+	});
+	</script>
+	
+	There are several extension modules that extend NodeLists by adding extra methods to them. Class and style helper methods are in the dojo/NodeList-dom module.
+	<script type="text/javascript">
+	require(["dojo/query", "dojo/NodeList-dom", "dojo/domReady!"], function(query) {
+	    // Add "red" to the className of each node matching
+	    // the selector ".odd"
+	    query(".odd").addClass("red");
+	    // Add "blue" to the className of each node matching
+	    // the selector ".even"
+	    query(".even").addClass("blue");
+	    
+	 // Remove "red" from and add "blue" to the className
+	 // of each node matching the selector ".odd"
+	 //query(".odd").removeClass("red").addClass("blue");
+	 // Change the font color to "white" and add "italic" to
+	 // the className of each node matching the selector ".even"
+	 //query(".even").style("color", "white").addClass("italic");
+	});
+	
+	</script>
+
+	<br>
+	<button class="hookUp">Click Me!</button>
+	<button class="hookUp">Click Me!</button>
+	<button class="hookUp">Click Me!</button>
+	<button class="hookUp">Click Me!</button>
+	<script>
+    // Wait for the DOM to be ready before working with it
+    require(["dojo/query", "dojo/domReady!"], function(query) {
+        query(".hookUp").on("click", function(){
+            alert("This button is hooked up!");
+        });
+    });
+</script>
+</body>
+</html>
