@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	 <script>
+ 	// Instead of using data-dojo-config, we're creating a dojoConfig
+ 	// object *before* we load dojo.js; they're functionally identical,
+ 	// it's just easier to read this approach with a larger configuration.
+			var dojoConfig = {
+				async : true
+			};
+		</script>
+<!-- load Dojo -->
+<script src="dojo/dojo.js"></script>
+    <button id="myButton">Click me!</button>
+	<div id="myDiv">Hover over me!</div>
+    <script type="text/javascript">
+    //Dojo如何使用on来绑定事件
+    require(["dojo/on", "dojo/dom", "dojo/dom-style", "dojo/mouse", "dojo/domReady!"],
+    	    function(on, dom, domStyle, mouse) {
+    	        var myButton = dom.byId("myButton"),
+    	            myDiv = dom.byId("myDiv");
+    	 
+    	        on(myButton, "click", function(evt){
+    	            domStyle.set(myDiv, "backgroundColor", "blue");
+    	        });
+    	        
+    	        on(myDiv, mouse.enter, function(evt){
+    	            domStyle.set(myDiv, "backgroundColor", "red");
+    	        });
+    	        on(myDiv, mouse.leave, function(evt){
+    	            domStyle.set(myDiv, "backgroundColor", "");
+    	            
+    	            //只会调用一次的函数，我的怎么能多次alert？
+    	            //The return value of on is a simple object with a remove method, which will remove the event listener when called
+    	            var handle = on(myButton, "click", function(evt){
+    	                // Remove this event using the handle
+    	                handle.remove();
+    	             
+    	                // Do other stuff here that you only want to happen one time
+    	                alert("This alert will only happen one time.");
+    	            });
+    	            //只会调用一次的函数，另一种形式。我的例子，又多次alert(⊙﹏⊙)b
+    	        on.once(myButton, "click", function(evt){
+    	            	alert("you will see this alert only one time.");
+    	            })
+    	            
+    	        });
+    	});
+    </script>
+</body>
+</html>

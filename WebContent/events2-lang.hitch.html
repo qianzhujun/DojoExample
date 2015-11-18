@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ <script>
+			var dojoConfig = {async : true};
+		</script>
+<!-- load Dojo -->
+<script src="dojo/dojo.js"></script>
+by default, on will run event handlers in the context of the node passed in the first argument. The one exception to this is when on is used for event delegation, which we will discuss shortly.
+However, you can use lang.hitch (from the dojo/_base/lang module) to specify the context in which to run the handler.
+<br>
+on处理的事件默认在传入的node上，但是，有一种例外，事件委托时。不过，我们可以使用lang.hitch来指定具体的事件处理的node.
+<br>
+<button id="myScopedButton1">myScopedButton1</button>
+<button id="myScopedButton2">myScopedButton2</button>
+<script type="text/javascript">
+require(["dojo/on", "dojo/dom", "dojo/_base/lang", "dojo/domReady!"],
+	    function(on, dom, lang) {
+	 
+	        var myScopedButton1 = dom.byId("myScopedButton1"),
+	            myScopedButton2 = dom.byId("myScopedButton2"),
+	            myObject = {
+	                id: "myObject",
+	                onClick: function(evt){
+	                    alert("The scope of this handler is " + this.id);//谁调用这个函数，就返回谁的id
+	                }
+	            };
+	 
+	        // This will alert "myScopedButton1"
+	        on(myScopedButton1, "click", myObject.onClick);//myScopedButton1上调用了myObject里的onClick函数，所以返回myScopedButton1组件的ID
+	        // This will alert "myObject" rather than "myScopedButton2"
+	        on(myScopedButton2, "click", lang.hitch(myObject, "onClick"));//myScopedButton2上调用了myObject里的onClick函数，但是lang.hitch指定了作用范围，所以只会返回myObject对象的id
+	 
+	});
+</script>
+</body>
+</html>

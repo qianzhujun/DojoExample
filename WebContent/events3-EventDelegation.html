@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Event Delegation</title>
+</head>
+<body>
+ <script>var dojoConfig = {async : true};</script>
+<!-- load Dojo -->
+<script src="dojo/dojo.js"></script>
+The idea behind event delegation is that instead of attaching a listener to an event on each individual node of interest, you attach a single listener to a node at a higher level, which will check the target of events it catches to see whether they bubbled from an actual node of interest; if so, the handler's logic will be performed.
+<br>
+事件委托的思想就是，与其为每一个元素设置单独监听函数A，不如在这些元素的上一级设置监听函数B。函数B捕获事件时，判断事件的目标，如果目标就是自己感兴趣的元素，就会执行相应的逻辑代码。
+<br>
+例如，有一个lu>li,你没必要为每一个li设置单独的listener，这样不切实际，改动麻烦。直接在lu上设置listener。
+<div id="parentDiv">
+    <button id="button1" class="clickMe">Click me</button>
+    <button id="button2" class="clickMe">Click me also</button>
+    <button id="button3" class="clickMe">Click me too</button>
+    <button id="button4" class="clickMe">Please click me</button>
+</div>
+<script type="text/javascript">
+require(["dojo/on", "dojo/dom", "dojo/query", "dojo/domReady!"],
+	    function(on, dom){
+	 
+	        var myObject = {
+	            id: "myObject",
+	            onClick: function(evt){
+	                alert("The scope of this handler is " + this.id);
+	            }
+	        };
+	        var div = dom.byId("parentDiv");
+	        on(div, ".clickMe:click", myObject.onClick);//为parentDiv中所有class为clickMe的元素
+	 
+	});
+</script>
+
+</body>
+</html>
